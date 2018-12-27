@@ -1,0 +1,25 @@
+COP4610 Project 2 - Christ Osterer, Jonathan Molina, and Steven Perez
+
+Part 1:
+Included Files: makefile, empty.c, tenCalls.c
+Description: empty.c contains an empty program, this program was compiled and the total number of syscalls counted using `strace -c` (on FSU linprog servers this came up to 65 syscalls).  tenCalls.c contains a short program that performs some opperations with syscalls.  Using `strace -c` we found that tenCalls.c performs exactly 10 more syscalls than empty.c
+Compilation Instructions: make will compile tenCalls.c into an executable called prog.  `make empty` will compile empty.c into an executable called emptyProg.
+
+
+Part 2:
+Included Files: my_xtime.c, Makefile
+Description: This kernel modules creates a proc file called timed.  When the user reads timed, the module will display to the user the current time (in seconds since the UNIX Epoch).  Subsequent reads will also display the time since the previous read.  All time displays are accurate to the nanosecond.
+Compilation Instructions: `make` will compile the module into my_xtime.ko.  This module can be added with insmod and removed using rmmod
+
+Part 3:
+Included Files: elevatorCalls.c, elevator.h, elevator.c, floors.c, eleproc.c, init.c, Makefile
+Description: This kernel module simulates an elevator and adds system calls to activate and the elevator, as well as a proc file to display data on the elevator.  Elevator schedule uses a SCAN algorithm.
+File Descriptions:
+elevatorCalls.c - Defines the syscall wrappers, must be compiled in the kernel
+elevator.h - Header file contains shared function prototypes between other submodules and datatypes for elevatorState and Passenger
+elevator.c - Stores information on elevator state, spawns kthread to run elevator, and contains scheduling algorithm
+floors.c - Sets up datastructures to hold waiting passengers, manages access to said datastructures, and defines cleanup procedures for said datastructures
+eleproc.c - Sets up proc file
+init.c - Contains module_init and module_exit function definitions
+Makefile - Makes the files
+Compilation Instructions: elevatorCalls.c must be compiled into the kernel.  `make` will compile all other files into elevatorSim.ko file, which can be loaded and unloaded like any other module
